@@ -1,0 +1,339 @@
+/* 全体のスタイル */
+:root {
+	/* メインカラー */
+	--primary-color: #3498db;
+	--primary-dark: #2980b9;
+	
+	/* 背景と要素の色 */
+	--text-color: #333;
+	--title-color:#333;
+	--text-secondary: #555;
+	--bg-color: #f9f9f9;
+	--card-bg: #fff;
+	--border-color: #ddd;
+	--controls-bg: rgba(245, 245, 245, 0.6);
+	
+	/* スライダー関連の色 */
+	--slider-bg: #e0e0e0;
+	
+	/* トラックリスト関連の色 */
+	--track-hover-bg: rgba(52, 152, 219, 0.1);
+	--track-active-bg: rgba(52, 152, 219, 0.2);
+	
+	/* スクロールバー関連の色 */
+	--scrollbar-track: #f1f1f1;
+	--scrollbar-thumb: #ccc;
+	--scrollbar-thumb-hover: #bbb;
+	
+	/* シャドウ */
+	--shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+	--button-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+	--button-shadow-hover: 0 4px 8px rgba(0, 0, 0, 0.2);
+	--add-btn-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	--inset-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+	--slider-thumb-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  }
+  
+  body {
+	font-family: 'Roboto', 'Noto Sans JP', sans-serif;
+	text-align: center;
+	background-color: var(--bg-color);
+	margin: 0;
+	padding: 0px;
+	color: var(--text-color);
+  }
+  
+  /* プレイヤー全体を囲むコンテナ */
+  .player-container {
+	max-width: 600px;
+	margin: 40px auto;
+	margin-top: 20px;
+	padding: 25px;
+	border-radius: 12px;
+	background-color: var(--card-bg);
+	box-shadow: var(--shadow);
+	position: relative;
+	overflow: hidden;
+  }
+  
+  /* ファイル追加ボタン */
+  #add-files-btn {
+	position: absolute;
+	bottom: 20px;
+	right: 20px;
+	width: 56px;
+	height: 56px;
+	background-color: var(--primary-color);
+	border: none;
+	border-radius: 28px;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	box-shadow: var(--add-btn-shadow);
+	z-index: 10;
+	padding: 0;
+	margin: 0;
+	outline: none;
+	box-sizing: border-box;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-width: 56px;
+	max-width: 56px;
+	min-height: 56px;
+	max-height: 56px;
+	overflow: hidden;
+  }
+  
+  #add-files-btn:hover {
+	background-color: var(--primary-dark);
+	transform: scale(1.05) rotate(90deg);
+  }
+  
+  #add-files-btn::before {
+	content: "";
+	position: absolute;
+	width: 24px;
+	height: 4px;
+	background-color: white;
+	left: 16px; /* (56px - 24px) / 2 */
+	top: 26px; /* (56px - 4px) / 2 */
+  }
+  
+  #add-files-btn::after {
+	content: "";
+	position: absolute;
+	width: 4px;
+	height: 24px;
+	background-color: white;
+	left: 26px; /* (56px - 4px) / 2 */
+	top: 16px; /* (56px - 24px) / 2 */
+  }
+  
+  /* 現在のトラック名 */
+  #current-track {
+	font-size: 22px;
+	font-weight: 600;
+	margin: 0;
+	color: var(--title-color);
+	width: 100%;
+	text-align: center;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	padding: 0 10px;
+  }
+  
+  /* オーディオプレイヤーを非表示 */
+  #audio {
+	display: none;
+  }
+  
+  /* コントロールエリア */
+  #controls {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 16px;
+	padding: 18px;
+	padding-bottom: 8px;
+	border-radius: 10px;
+	background-color: var(--controls-bg);
+  }
+  
+  /* 現在の再生時間 */
+  #current-time {
+	font-size: 16px;
+	color: var(--text-secondary);
+	margin: 5px 0;
+	font-weight: 500;
+  }
+  
+  /* シークバーコンテナ */
+  .seek-bar-container {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	width: 100%;
+  }
+  
+  /* シークアイコン（画像） */
+  .seek-icon {
+	width: 18px;
+	height: 18px;
+	display: block;
+	filter: invert(0%);
+  }
+  
+  /* 音量バーコンテナ */
+  .volume-bar-container {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	width: 100%;
+  }
+  
+  /* 音量アイコン（画像） */
+  .volume-icon {
+	width: 18px;
+	height: 18px;
+	display: block;
+	filter: invert(0%);
+  }
+  
+  /* シークバーとボリュームバーの共通スタイル */
+  input[type="range"] {
+	width: 100%;
+	margin: 0;
+	-webkit-appearance: none;
+	height: 8px;
+	background: var(--slider-bg);
+	border-radius: 4px;
+	outline: none;
+	transition: all 0.2s ease;
+  }
+  
+  input[type="range"]::-webkit-slider-runnable-track {
+	background: var(--slider-bg);
+	height: 8px;
+	border-radius: 4px;
+  }
+  
+  input[type="range"]::-moz-range-track {
+	background: var(--slider-bg);
+	height: 8px;
+	border-radius: 4px;
+  }
+  
+  input[type="range"]::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	width: 18px;
+	height: 18px;
+	background: var(--primary-color);
+	border-radius: 50%;
+	cursor: pointer;
+	margin-top: -5px;
+	box-shadow: var(--slider-thumb-shadow);
+	transition: all 0.2s ease;
+  }
+  
+  input[type="range"]::-moz-range-thumb {
+	width: 18px;
+	height: 18px;
+	background: var(--primary-color);
+	border-radius: 50%;
+	cursor: pointer;
+	border: none;
+	box-shadow: var(--slider-thumb-shadow);
+	transition: all 0.2s ease;
+  }
+  
+  input[type="range"]:hover::-webkit-slider-thumb {
+	background: var(--primary-dark);
+	transform: scale(1.1);
+  }
+  
+  input[type="range"]:hover::-moz-range-thumb {
+	background: var(--primary-dark);
+	transform: scale(1.1);
+  }
+  
+  input[type="range"]:focus {
+	outline: none;
+  }
+  
+  /* ボタングループ */
+  .button-group {
+	display: flex;
+	gap: 20px;
+	margin-top: 5px;
+  }
+  
+  /* ボタン */
+  button {
+	margin: 10px 0px;
+	padding: 10px 20px;
+	font-size: 15px;
+	min-width: 85px;
+	height: 40px;
+	background-color: var(--primary-color);
+	color: #fff;
+	border: none;
+	border-radius: 20px;
+	cursor: pointer;
+	transition: all 0.2s ease;
+	box-shadow: var(--button-shadow);
+	font-weight: 500;
+  }
+  
+  /* add-files-btnのボタンスタイルを上書き */
+  #add-files-btn {
+	min-width: 56px;
+	height: 56px;
+	padding: 0;
+	margin: 0;
+	border-radius: 28px;
+  }
+  
+  button:hover {
+	background-color: var(--primary-dark);
+	box-shadow: var(--button-shadow-hover);
+  }
+  
+  #add-files-btn:hover {
+	transform: scale(1.05) rotate(90deg);
+  }
+  
+  /* トラックリスト */
+  #track-list {
+	list-style: none;
+	padding: 0;
+	max-width: 100%;
+	max-height: 500px;
+	margin: 20px auto 0;
+	border-radius: 8px;
+	background-color: var(--card-bg);
+	text-align: left;
+	overflow-y: auto;
+	box-shadow: var(--inset-shadow);
+  }
+  
+  #track-list li {
+	padding: 12px 20px;
+	border-bottom: 1px solid var(--border-color);
+	cursor: pointer;
+	transition: all 0.2s ease;
+	position: relative;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+  }
+  
+  #track-list li:hover {
+	background-color: var(--track-hover-bg);
+	padding-left: 25px;
+  }
+  
+  #track-list li.active {
+	background-color: var(--track-active-bg);
+	font-weight: bold;
+	border-left: 4px solid var(--primary-color);
+  }
+  
+  /* スクロールバーのカスタマイズ */
+  #track-list::-webkit-scrollbar {
+	width: 8px;
+  }
+  
+  #track-list::-webkit-scrollbar-track {
+	background: var(--scrollbar-track);
+	border-radius: 4px;
+  }
+  
+  #track-list::-webkit-scrollbar-thumb {
+	background: var(--scrollbar-thumb);
+	border-radius: 4px;
+  }
+  
+  #track-list::-webkit-scrollbar-thumb:hover {
+	background: var(--scrollbar-thumb-hover);
+  }
